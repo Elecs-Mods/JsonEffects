@@ -1,4 +1,4 @@
-package elec332.jsoneffects.modules.armour;
+package elec332.jsoneffects.modules.inventory;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -14,31 +14,31 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import java.util.List;
 
 /**
- * Created by Elec332 on 25-9-2015.
+ * Created by Elec332 on 26-9-2015.
  */
-@ElecModule(name = "Armour", enabled = false)
-public class ArmourModule {
+@ElecModule(name = "Inventory", enabled = false)
+public class InventoryModule {
 
     private static List<WrappedEffect> handledEffects;
 
     @ElecModule.EventHandler
     public void setupModule(SetupModuleEvent event){
-        handledEffects = EffectHandler.getEffects(ItemEffect.InventoryLocation.ARMOUR);
+        handledEffects = EffectHandler.getEffects(ItemEffect.InventoryLocation.INVENTORY);
     }
 
     @ElecModule.EventHandler
     public void init(FMLInitializationEvent event){
-        EventHelper.registerHandlerFML(new ArmourHandler());
+        EventHelper.registerHandlerFML(new InventoryHandler());
     }
 
-    public static class ArmourHandler {
+    public static class InventoryHandler {
 
         @SubscribeEvent
         public void onPlayerTick(TickEvent.PlayerTickEvent event){
             if (event.phase == TickEvent.Phase.START && !event.player.worldObj.isRemote){
                 if (event.player.worldObj.getTotalWorldTime() % 20 == 0){
                     for (WrappedEffect effect : handledEffects){
-                        int i = effect.checkAmount(0, 4, event.player.inventory.armorInventory);
+                        int i = effect.checkAmount(9, 36, event.player.inventory.mainInventory);
                         if (i > 0){
                             effect.apply((EntityPlayerMP) event.player, i);
                         }
@@ -48,5 +48,4 @@ public class ArmourModule {
         }
 
     }
-
 }

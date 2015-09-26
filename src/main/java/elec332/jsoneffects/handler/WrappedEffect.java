@@ -33,16 +33,16 @@ public class WrappedEffect {
         if (!doesStack)
             amount = 1;
         for (ItemEffect.Effect effect : effects){
-            int strength = effect.strength * amount;
-            player.addPotionEffect(new PotionEffect(effect.effectID, 39, strength));
+            int strength = effect.strength * amount - 1;
+            player.addPotionEffect(new PotionEffect(effect.effectID, 59, strength));
         }
     }
 
 
-    public int checkAmount(ItemStack... stacks){
+    public int checkAmount(int minSlot, int maxSlot, ItemStack... stacks){
         int ret = 0;
-        for (ItemStack inSlot : stacks) {
-            //ItemStack inSlot = inventory.getStackInSlot(i);
+        for (int i = minSlot; i < maxSlot; i++) {
+            ItemStack inSlot = stacks[i];
             for (ItemStack stack : validStacks){
                 if (InventoryHelper.areEqualNoSize(inSlot, stack) && inSlot.stackSize >= stack.stackSize){
                     float diff = (float)inSlot.stackSize/stack.stackSize;

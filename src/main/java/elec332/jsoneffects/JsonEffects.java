@@ -11,6 +11,8 @@ import elec332.core.modBaseUtils.ModInfo;
 import elec332.core.module.ModuleHandler;
 import elec332.jsoneffects.handler.EffectHandler;
 import elec332.jsoneffects.modules.armour.ArmourModule;
+import elec332.jsoneffects.modules.hotbar.HotBarModule;
+import elec332.jsoneffects.modules.inventory.InventoryModule;
 import elec332.jsoneffects.proxies.CommonProxy;
 import net.minecraftforge.common.config.Configuration;
 
@@ -42,11 +44,14 @@ public class JsonEffects {
         config.load();
         moduleHandler = new ModuleHandler(config);
         moduleHandler.registerModule(new ArmourModule());
+        moduleHandler.registerModule(new HotBarModule());
+        moduleHandler.registerModule(new InventoryModule());
         EffectHandler.loadFile(new File(configDir, "effects.json"));
         //setting up mod stuff
 
         moduleHandler.preInit(event);
-        config.save();
+        if (config.hasChanged())
+            config.save();
         MCModInfo.CreateMCModInfo(event, "Created by Elec332",
                 "mod description",
                 "website link", "logo",
