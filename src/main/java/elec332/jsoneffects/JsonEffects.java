@@ -15,6 +15,7 @@ import elec332.jsoneffects.modules.hotbar.HotBarModule;
 import elec332.jsoneffects.modules.inventory.InventoryModule;
 import elec332.jsoneffects.proxies.CommonProxy;
 import net.minecraftforge.common.config.Configuration;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
@@ -36,9 +37,11 @@ public class JsonEffects {
     public static File configDir;
     public static Configuration config;
     public static ModuleHandler moduleHandler;
+    public static Logger logger;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        logger = event.getModLog();
         configDir = FileHelper.getCustomConfigFolderElec(event, "JsonEffects");
         config = new Configuration(new File(configDir, "main.cfg"));
         config.load();

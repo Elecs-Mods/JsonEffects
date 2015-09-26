@@ -42,6 +42,9 @@ public class EffectHandler {
             effectList = _reloadFile();
         } catch (IOException e){
             throw new RuntimeException("Error loading Json file!", e);
+        } catch (Exception e){
+            JsonEffects.logger.error("Invalid Json file!");
+            effectList = Lists.newArrayList();
         }
         for (ItemEffect effect : effectList){
             for (ItemEffect.InventoryLocation location : effect.validLocations){
