@@ -18,11 +18,11 @@ import java.util.Map;
 /**
  * Created by Elec332 on 25-9-2015.
  */
-public class EffectHandler {
+public class JsonEffectHandler {
 
     private static File jsonFile;
 
-    private static Map<ItemEffect.InventoryLocation, List<WrappedEffect>> registry = Maps.newHashMap();
+    private static Map<ItemEffect.InventoryLocation, List<JsonEffect>> registry = Maps.newHashMap();
 
     public static void loadFile(File file){
         jsonFile = file;
@@ -48,12 +48,12 @@ public class EffectHandler {
         }
         for (ItemEffect effect : effectList){
             for (ItemEffect.InventoryLocation location : effect.validLocations){
-                registry.get(location).add(new WrappedEffect(effect));
+                registry.get(location).add(new JsonEffect(effect));
             }
         }
     }
 
-    public static List<WrappedEffect> getEffects(ItemEffect.InventoryLocation inventoryLocation){
+    public static List<JsonEffect> getEffects(ItemEffect.InventoryLocation inventoryLocation){
         return registry.get(inventoryLocation);
     }
 
@@ -70,7 +70,7 @@ public class EffectHandler {
         ItemEffect ret = new ItemEffect();
         ret.doesEffectStack = true;
         ItemEffect.Effect effect = new ItemEffect.Effect();
-        effect.effectID = 2;
+        effect.effect = "fireresistance";
         effect.strength = 1;
         ret.effects = new ItemEffect.Effect[]{effect};
         ret.validLocations = new ItemEffect.InventoryLocation[]{ItemEffect.InventoryLocation.ARMOUR};
@@ -80,7 +80,7 @@ public class EffectHandler {
 
     static {
         for (ItemEffect.InventoryLocation location : ItemEffect.InventoryLocation.values()){
-            registry.put(location, Lists.<WrappedEffect>newArrayList());
+            registry.put(location, Lists.<JsonEffect>newArrayList());
         }
     }
 }

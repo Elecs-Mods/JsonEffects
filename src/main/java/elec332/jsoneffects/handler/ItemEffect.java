@@ -17,7 +17,7 @@ public class ItemEffect implements Serializable{
     public static class Effect {
 
         public String displayName = "";
-        public int effectID = -1;
+        public String effect = "";
         public int strength = 0;
 
     }

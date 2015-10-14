@@ -6,9 +6,10 @@ import cpw.mods.fml.common.gameevent.TickEvent;
 import elec332.core.module.annotations.ElecModule;
 import elec332.core.module.event.SetupModuleEvent;
 import elec332.core.util.EventHelper;
-import elec332.jsoneffects.handler.EffectHandler;
+import elec332.jsoneffects.JsonEffects;
 import elec332.jsoneffects.handler.ItemEffect;
-import elec332.jsoneffects.handler.WrappedEffect;
+import elec332.jsoneffects.handler.JsonEffect;
+import elec332.jsoneffects.handler.JsonEffectHandler;
 import net.minecraft.entity.player.EntityPlayerMP;
 
 import java.util.List;
@@ -19,11 +20,11 @@ import java.util.List;
 @ElecModule(name = "Inventory", enabled = false)
 public class InventoryModule {
 
-    private static List<WrappedEffect> handledEffects;
+    private static List<JsonEffect> handledEffects;
 
     @ElecModule.EventHandler
     public void setupModule(SetupModuleEvent event){
-        handledEffects = EffectHandler.getEffects(ItemEffect.InventoryLocation.INVENTORY);
+        handledEffects = JsonEffectHandler.getEffects(ItemEffect.InventoryLocation.INVENTORY);
     }
 
     @ElecModule.EventHandler
@@ -33,14 +34,18 @@ public class InventoryModule {
 
     public static class InventoryHandler {
 
+        private int i = 0;
+
         @SubscribeEvent
         public void onPlayerTick(TickEvent.PlayerTickEvent event){
             if (event.phase == TickEvent.Phase.START && !event.player.worldObj.isRemote){
-                if (event.player.worldObj.getTotalWorldTime() % 20 == 0){
-                    for (WrappedEffect effect : handledEffects){
-                        int i = effect.checkAmount(9, 36, event.player.inventory.mainInventory);
-                        if (i > 0){
-                            effect.apply((EntityPlayerMP) event.player, i);
+                i--;
+                if (i <= 0){
+                    i = JsonEffects.timeCheck;
+                    for (JsonEffect effect : handledEffects){
+                        int j = effect.checkAmount(9, 36, event.player.inventory.mainInventory);
+                        if (j > 0){
+                            effect.apply((EntityPlayerMP) event.player, j);
                         }
                     }
                 }
@@ -48,4 +53,5 @@ public class InventoryModule {
         }
 
     }
+
 }
